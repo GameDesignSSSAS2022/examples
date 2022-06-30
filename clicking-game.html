@@ -1,0 +1,45 @@
+<!-- Made for VACLearn platform -->
+
+<!-- Show the score -->
+<p style = "font-size:25px; color:{{color}};"> {{score}} </p>
+
+<!-- Increase the score by 1 each time -->
+<button onclick = "score += 1; updateScore();" style = "visibility: {{buttonVisibility}}">Score Up</button>
+
+<!-- Just update the score (all the buttons do this) -->
+<button onclick="updateScore()">Update score</button>
+
+<!-- Autoclicker: Gives 1 point per second (requires 20 points) -->
+<button onclick="updateScore(); if(score > 19) { autoclickers += 1; score -= 20; }"> Get Autoclicker (20 pts)</button>
+
+<!-- Superclicker: Gives 1 point per 200 milliseconds (requires 20 points) -->
+<button onclick="updateScore(); if(score > 49) { superclickers += 1; score -= 50; }"> Get Superclicker (50 pts)</button>
+
+<script>
+    // Get the difference in time from when the button was last clicked and right now (in milliseconds)
+    function timeDifference(){
+        return Date.now() - lastClickTime;
+    }
+
+    // Update the score to include the autoclicker's score 
+    function updateScore() {
+        // increase the score by the number of seconds since the last click
+        // multiply the result by the number of autoclickers the player has
+        score += (timeDifference()/1000) * autoclickers;
+        score += (timeDifference()/200) * superclickers;
+
+        // round the score to the nearest whole number
+        score = Math.round(score);
+        // reset the time the button was last clicked to right now
+        lastClickTime = Date.now();
+    }
+</script>
+
+<!--
+Variable space:
+var score = 0;
+var buttonVisibility = "visible";
+var lastClickTime = Date.now();
+var autoclickers = 0;
+var superclickers = 0;
+-->
