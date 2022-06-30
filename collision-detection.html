@@ -1,0 +1,78 @@
+<!-- This is made for JSfiddle -->
+
+<!-- Dragon image -->
+<image id = "dragon" src="https://lh4.googleusercontent.com/yTaZZZj54Be0TQG0QPjZ8L5Yn4IJ-OzAbM79qNtUjsfWr7lM6Gogj_wXgWfwlM3UMNbpvbnMd-J7YmpXaRwT=w2879-h1650" style="left:100px; top:100px; position:absolute" width="175" height="100"></image>
+
+<!-- Rock image -->
+<image id = "rock" src="https://pngimg.com/uploads/stone/stone_PNG13545.png" width="50" height="50" style="left:300px; top:200px; position:absolute"></image>
+
+<!-- Collision alert; starts out hidden -->
+<p id = "text" style="visibility:hidden">
+You collided!
+</p>
+
+<script>
+    // Assign variables to each of the HTML elements
+    var dragon = document.getElementById("dragon");
+    var rock = document.getElementById("rock");
+    var text = document.getElementById("text");
+
+    // Make the page "listen" for any key being pressed
+    // if it "hears" a key pressed, it will run the onkeydown() function
+    window.addEventListener("keydown", onkeydown);
+
+    // This function should run every time a key is pressed
+    function onkeydown(key) {
+        // assign a variable to the dragon's x and y coordinates
+        imgX = dragon.offsetLeft;
+        imgY = dragon.offsetTop;
+
+        // each of these if statements handles a different key being pressed 
+        // each key has a numeric code -- find them here:
+        // https://www.toptal.com/developers/keycode
+        if (key.keyCode == 39) { //right arrow
+            imgX += 5;
+        } 
+        else if (key.keyCode == 37) { //left arrow
+            imgX -= 5;
+        } 
+        else if (key.keyCode == 38) {	//up arrow
+            imgY -= 5;
+        } 
+        else if (key.keyCode == 40) { //down arrow
+            imgY += 5;
+        } 
+        
+        // set the dragon's position to whatever was changed
+        dragon.style.left = imgX + "px";
+        dragon.style.top = imgY + "px";
+        
+        // run the collision detector -- defined below!
+        collision = checkCollision(dragon, rock);
+
+        // make the collision alert visible only if a collision was detected
+        if (collision) {
+            text.style.visibility = "visible";
+        }
+        else {
+            text.style.visibility = "hidden";
+        }
+    }
+
+    // This function checks for a collision
+    function checkCollision(a, b) {
+        // when this is run, 'a' and 'b' get replaced with 'dragon' and 'rock'
+        thing1 = a.getBoundingClientRect();
+        thing2 = b.getBoundingClientRect();
+
+        // this assumes everything is a rectangle
+        // if it didn't, it would be WAY more complicated
+        return !(
+            ((thing1.y + thing1.height) < (thing2.y)) ||
+            (thing1.y > (thing2.y + thing2.height)) ||
+            ((thing1.x + thing1.width) < thing2.x) ||
+            (thing1.x > (thing2.x + thing2.width))
+        );
+    }
+
+</script>
