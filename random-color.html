@@ -1,0 +1,6 @@
+<!-- Made for jsfiddle-->
+<!-- This uses some fancy math and number manipulation to create a color code that looks like this: #19ab15 -->
+<!-- Your computer reads codes like that to figure out which color to display -->
+<button onclick = "text.style.color = '#' + (0x1000000 + Math.random() * 0xffffff).toString(16).substr(1, 6);">Change the color</button>
+<p id = "text">Color changing text!</p>
+
